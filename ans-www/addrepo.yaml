@@ -1,0 +1,12 @@
+- name : setup to EPEL repository
+  hosts: all
+
+  tasks:
+    - name: add repository
+      yum_repository:
+        name: internalrepo
+        description: enterprise packages repository
+        baseurl: http://internal.repo.example.com 
+        gpgcheck: false
+        file: epel
+        Enabled: no

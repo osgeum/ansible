@@ -1,0 +1,7 @@
+---
+roles: []
+collections:
+  - "serdigital64.system"
+  - "serdigital64.devops"
+  - "serdigital64.development"
+...

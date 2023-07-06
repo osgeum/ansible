@@ -1,0 +1,13 @@
+---
+- name: "System / User / Initialize / Check Platform compatibility ({{
+    ansible_distribution + ansible_distribution_major_version }})"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_user_platforms
+
+- name: "System / User / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + ansible_system + '.yml' }}"
+...

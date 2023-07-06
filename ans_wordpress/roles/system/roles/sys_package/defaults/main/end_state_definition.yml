@@ -1,0 +1,4 @@
+---
+sys_package_paths:
+  root_var: "/var/opt/sys_package"
+...

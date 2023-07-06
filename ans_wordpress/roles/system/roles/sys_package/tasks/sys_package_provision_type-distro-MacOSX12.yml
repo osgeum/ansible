@@ -1,0 +1,4 @@
+---
+- name: "System / Package / Provision / Type: distro / Platform: {{ ansible_distribution + ansible_distribution_major_version }} / Process packages"
+  ansible.builtin.meta: noop
+...

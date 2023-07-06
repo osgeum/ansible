@@ -1,0 +1,55 @@
+---
+sys_shell_base:
+  files: "{{ sys_shell_base_common['files'] }}"
+  templates: "{{ sys_shell_base_common['templates'] }}"
+  run:
+    su: "/usr/bin/su"
+    ohmysh_install: "/opt/ohmyzsh/install.sh"
+    bash: "/bin/bash"
+    zsh: "/bin/zsh"
+    csh: "/bin/csh"
+    ksh: "/bin/ksh"
+  paths:
+    ohmyzsh: "/opt/ohmyzsh"
+    p10k: "/opt/powerlevel10k"
+    p10k_themes_usr: ".oh-my-zsh/custom/themes"
+    ohmyzsh_usr: ".oh-my-zsh"
+    custom_p10k_themes: "files/custom_p10k_themes"
+    home_root: "/Users"
+  access:
+    user:
+      owner: "root"
+    group:
+      owner: "wheel"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+      dir_usr: "0700"
+      file_usr: "0600"
+
+sys_shell_profiles:
+  zsh: {}
+  bash:
+    brew:
+      latest:
+        supported: true
+        packages:
+          - name: "bash"
+  ksh: {}
+  csh: {}
+  ohmyzsh: "{{ sys_shell_profiles_common['ohmyzsh'] }}"
+  p10k: "{{ sys_shell_profiles_common['p10k'] }}"
+
+sys_shell_application:
+  zsh: {}
+  bash:
+    name: "bash"
+    type: "brew"
+    version: "latest"
+    installed: "{{ sys_shell_catalog['bash'] | default(false) }}"
+  ksh: {}
+  csh: {}
+  ohmyzsh: "{{ sys_shell_application_common['ohmyzsh'] }}"
+  p10k: "{{ sys_shell_application_common['p10k'] }}"
+...

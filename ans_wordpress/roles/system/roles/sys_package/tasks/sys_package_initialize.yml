@@ -1,0 +1,37 @@
+---
+- name: "System / Package / Initialize / Check Platform compatibility ({{
+    ansible_distribution + ansible_distribution_major_version }})"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_package_platforms
+
+- name: "System / Package / Initialize / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "required parameters are missing ({{
+      sys_package_paths | default('sys_package_paths')
+      }})"
+    that:
+      - sys_package_paths['root_var'] is defined
+      - sys_package_paths['root_var'] | length > 0
+
+- name: "System / Package / Load Dependencies: sys_repository"
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_repository"
+    public: true
+  when:
+    - sys_repository_platforms is not defined
+
+- name: "System / Package / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + ansible_system + '.yml' }}"
+
+- name: "System / Package / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "sys_package_prerequisite.yml"
+  when:
+    - sys_package['resolve_prereq'] is defined
+    - sys_package['resolve_prereq']
+...

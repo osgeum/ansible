@@ -1,0 +1,8 @@
+- name: install to group package
+  hosts: node1.example.com
+
+  tasks:
+    - name: install to group package
+      dnf:
+        name: "@Development tools"
+        state: present

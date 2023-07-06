@@ -1,0 +1,19 @@
+---
+- name: "System / GUI / Cinnamon / Provision / Desktop"
+  ansible.builtin.include_tasks:
+    file: "sys_gui_cinnamon_provision_desktop.yml"
+  when:
+    - sys_gui_cinnamon_dconf is defined
+    - sys_gui_cinnamon_dconf['desktop'] is defined
+    - sys_gui_cinnamon_dconf['desktop'] | length > 0
+    - sys_gui_cinnamon_dconf['desktop'] in sys_gui_cinnamon_dconf_catalog['desktop']['themes']
+
+- name: "System / GUI / Cinnamon / Provision / Nemo"
+  ansible.builtin.include_tasks:
+    file: "sys_gui_cinnamon_provision_nemo.yml"
+  when:
+    - sys_gui_cinnamon_dconf is defined
+    - sys_gui_cinnamon_dconf['nemo'] is defined
+    - sys_gui_cinnamon_dconf['nemo'] | length > 0
+    - sys_gui_cinnamon_dconf['nemo'] in sys_gui_cinnamon_dconf_catalog['nemo']['themes']
+...

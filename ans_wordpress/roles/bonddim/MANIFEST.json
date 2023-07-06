@@ -1,0 +1,39 @@
+{
+ "collection_info": {
+  "namespace": "bonddim",
+  "name": "linux",
+  "version": "1.5.0",
+  "authors": [
+   "Dmytro Bondar"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "linux",
+   "system",
+   "development",
+   "networking",
+   "packaging",
+   "web",
+   "virtualization"
+  ],
+  "description": "Linux roles collection for different purposes",
+  "license": [],
+  "license_file": "LICENSE",
+  "dependencies": {
+   "community.general": ">=1.0.0,!=3.3.0",
+   "community.docker": ">=1.0.0"
+  },
+  "repository": "https://github.com/bonddim/ansible-collection-linux",
+  "documentation": "https://github.com/bonddim/ansible-collection-linux/blob/main/README.md",
+  "homepage": "https://github.com/bonddim/ansible-collection-linux",
+  "issues": "https://github.com/bonddim/ansible-collection-linux/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "d794dece30ea48a2d4deea3fa9667666de4919bb6caa4b1c5ab344ce60bce839",
+  "format": 1
+ },
+ "format": 1
+}

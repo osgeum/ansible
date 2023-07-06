@@ -1,0 +1,7 @@
+---
+sys_user_base:
+  access: "{{ sys_user_base_common['access'] }}"
+  paths:
+    home: '/home'
+    xdg_config: ".config"
+...

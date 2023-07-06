@@ -1,0 +1,9 @@
+---
+# vars file for docker role
+docker_download_url: 'https://download.docker.com/linux'
+docker_base_url: '{{ docker_download_url }}/{{ ansible_distribution | lower }}'
+
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io

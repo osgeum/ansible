@@ -1,0 +1,81 @@
+---
+- name: "System / Shell / Setup / Profile / Options (user: {{
+    sys_shell___setup_profile['name'] }})"
+  ansible.builtin.include_tasks:
+    file: "sys_shell_setup_profile_options.yml"
+
+- name: "System / Shell / Setup / Profile / ZSH / Deploy Oh-My-ZSH (user: {{
+    sys_shell___setup_profile['name'] }})"
+  become: true
+  become_method: "community.general.sudosu"
+  become_user: "{{ sys_shell___setup_profile['name'] }}"
+  ansible.builtin.command:
+    creates: "{{
+      sys_shell___setup_profile['home'] + '/' +
+      sys_shell_base['paths']['ohmyzsh_usr']
+      }}"
+    argv:
+      - "{{ sys_shell_base['run']['ohmysh_install'] }}"
+      - "--unattended"
+
+- name: "System / Shell / Setup / Profile / ZSH / Create Custom Repository ({{
+    sys_shell___setup_profile['home'] + '/' + sys_shell_base['paths']['p10k_themes_usr'] }})"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    mode: "{{ sys_shell___setup_profile['access']['mode']['dir'] }}"
+    group: "{{ sys_shell___setup_profile['access']['group']['owner'] }}"
+    owner: "{{ sys_shell___setup_profile['access']['user']['owner'] }}"
+    path: "{{ sys_shell___setup_profile['home'] + '/' + sys_shell_base['paths']['p10k_themes_usr'] }}"
+
+- name: "System / Shell / Setup / Profile / ZSH / Deploy PowerLevel10K Theme ({{
+    sys_shell___setup_profile['home'] + '/' + sys_shell_base['paths']['p10k_themes_usr'] }})"
+  become: true
+  ansible.builtin.copy:
+    remote_src: true
+    backup: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    follow: false
+    force: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    mode: "{{ sys_shell___setup_profile['access']['mode']['dir'] }}"
+    group: "{{ sys_shell___setup_profile['access']['group']['owner'] }}"
+    owner: "{{ sys_shell___setup_profile['access']['user']['owner'] }}"
+    src: "{{ sys_shell_base['paths']['p10k'] }}"
+    dest: "{{ sys_shell___setup_profile['home'] + '/' + sys_shell_base['paths']['p10k_themes_usr'] }}"
+
+- name: "System / Shell / Setup / Profile / ZSH / Deploy PowerLevel10K Customized ({{
+    sys_shell___setup_profile['home'] + '/' + sys_shell_base['files']['p10k_zsh'] }})"
+  become: true
+  ansible.builtin.copy:
+    backup: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    follow: false
+    force: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    mode: "{{ sys_shell___setup_profile['access']['mode']['file'] }}"
+    group: "{{ sys_shell___setup_profile['access']['group']['owner'] }}"
+    owner: "{{ sys_shell___setup_profile['access']['user']['owner'] }}"
+    src: "{{
+      sys_shell_base['paths']['custom_p10k_themes'] + '/' +
+      sys_shell___setup_profile['theme']
+      }}"
+    dest: "{{
+      sys_shell___setup_profile['home'] + '/' +
+      sys_shell_base['files']['p10k_zsh']
+      }}"
+
+- name: "System / Shell / Setup / Profile / ZSH / Configure .zshrc ({{
+    sys_shell___setup_profile['home'] + '/' + sys_shell_base['files']['zshrc'] }})"
+  become: true
+  ansible.builtin.template:
+    backup: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    follow: false
+    force: "{{ sys_shell_actions['setup']['overwrite'] | default(false) }}"
+    unsafe_writes: false
+    mode: "{{ sys_shell___setup_profile['access']['mode']['file'] }}"
+    group: "{{ sys_shell___setup_profile['access']['group']['owner'] }}"
+    owner: "{{ sys_shell___setup_profile['access']['user']['owner'] }}"
+    src: "{{ sys_shell_base['templates']['zshrc'] }}"
+    dest: "{{ sys_shell___setup_profile['home'] + '/' + sys_shell_base['files']['zshrc'] }}"
+...

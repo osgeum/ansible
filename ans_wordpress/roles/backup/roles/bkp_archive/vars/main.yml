@@ -1,0 +1,67 @@
+---
+bkp_archive_platforms:
+  - "CentOS8"
+  - "RedHat8"
+  - "AlmaLinux8"
+  - "Rocky8"
+  - "OracleLinux8"
+  - "OracleLinux9"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Ubuntu22"
+  - "Fedora33"
+  - "Fedora35"
+  - "Fedora36"
+  - "Debian10"
+  - "Debian11"
+  - "MacOSX12"
+
+# Supported archive formats
+bkp_archive_formats:
+  common:
+    - "application/x-compress"
+    - "application/x-gtar"
+    - "application/x-gzip"
+    - "application/zip"
+    - "application/gtar"
+    - "application/gzip"
+  xz:
+    - "application/x-xz"
+  bzip2:
+    - "application/x-bzip2"
+
+bkp_archive_os_family: >-
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'RedHat' ) or
+      ( ansible_distribution == 'AlmaLinux' ) or
+      ( ansible_distribution == 'Rocky' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' )
+  -%}
+    {{ 'Debian' }}
+  {%- elif
+      ( ansible_distribution == 'MacOSX' )
+  -%}
+    {{ 'MacOSX' }}
+  {%- else -%}
+    {{ 'NotSupported' }}
+  {%- endif -%}
+
+# bkp_archive___provision_item: ~
+bkp_archive___provision_archive_file: ~
+bkp_archive___provision_content_file: ~
+bkp_archive___provision_extraction_result: ~
+bkp_archive___provision_movement_result: ~
+bkp_archive___provision_content_type: ~
+bkp_archive___provision_content_mode: ~
+bkp_archive___provision_archive_encapsulated: ""
+...

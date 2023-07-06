@@ -1,0 +1,31 @@
+- name: install ftp server
+  hosts: ftp
+
+  tasks:
+    - name: install ftp package
+      dnf:
+        name: vsftpd
+        state: present
+
+    - name: start ftp service
+      systemd:
+        name: vsftpd
+        state: started
+        enabled: yes
+
+- name: install db server
+  hosts: db
+
+  tasks:
+    - name: install to mariadb server
+      yum:
+       name:
+        - mariadb-server
+        - mariadb
+       state: present
+
+    - name: start to mariadb server
+      service:
+       name: mariadb
+       state: started
+       enabled: yes

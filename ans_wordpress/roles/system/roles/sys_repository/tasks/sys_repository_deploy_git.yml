@@ -1,0 +1,14 @@
+---
+- name: "System / Repository / Deploy / GIT / Distro native CLI"
+  vars:
+    dops_git_client:
+      deploy: true
+    dops_git_client_application:
+      client:
+        name: "git"
+        type: "distro"
+        version: "latest"
+        installed: true
+  ansible.builtin.include_role:
+    name: "serdigital64.devops.dops_git_client"
+...

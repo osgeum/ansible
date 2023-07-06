@@ -1,0 +1,26 @@
+---
+sys_mc_base:
+  etc: "{{ sys_mc_base_common['etc'] }}"
+  access: "{{ sys_mc_base_common['access'] }}"
+  templates: "{{ sys_mc_base_common['templates'] }}"
+  run:
+    distro:
+      mc: "/usr/bin/mc"
+    brew:
+      mc: "/home/linuxbrew/.linuxbrew/bin/mc"
+
+sys_mc_profiles:
+  distro:
+    latest:
+      supported: true
+      packages:
+        - name: "mc"
+  brew: "{{ sys_mc_profiles_common['brew'] }}"
+
+sys_mc_repository_custom_yum: []
+sys_mc_repository_custom_apt: []
+
+sys_mc_repository_catalog_distro: {}
+sys_mc_repository_catalog_yum: {}
+sys_mc_repository_catalog_apt: {}
+...

@@ -1,0 +1,114 @@
+---
+### {{ ansible_managed }}
+entryPoints:
+  {% if not (traefik_disable_http and traefik_enable_https) %}
+  web:
+    address: :80
+    {% if traefik_enable_https and traefik_enable_https_redirect %}
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+    {% endif %}
+  {% endif %}
+  {% if traefik_enable_https %}
+  websecure:
+    address: :443
+    http:
+      tls:
+        {% if traefik_acme_enable | bool %}
+        certResolver: letsEncrypt
+        domains: {{ traefik_acme_domains | to_json }}
+        {% endif %}
+      middlewares:
+        - default-compress@file
+        - default-security@file
+
+# Enable ACME (Let's Encrypt): automatic SSL
+certificatesResolvers:
+  letsEncrypt:
+    acme:
+      email: {{ traefik_acme_email }}
+      storage: {{ traefik_acme_storage_file }}
+      {% if traefik_acme_staging %}
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+      {% endif %}
+      {# ACME Challenges #}
+      {% if traefik_acme_challenge == 'dns' %}
+      dnsChallenge:
+        provider: {{ traefik_acme_dns_provider }}
+        resolvers: {{ traefik_acme_dns_resolvers | to_json }}
+        delayBeforeCheck: 10
+        disablepropagationcheck: {{ traefik_acme_dns_disablepropagationcheck | to_json }}
+      {% elif traefik_acme_challenge == 'tls' %}
+      tlsChallenge: {}
+      {% elif traefik_acme_challenge == 'http' %}
+      httpChallenge:
+        entryPoint: web
+      {% endif %}
+  {% endif %}
+
+# Active config providers
+providers:
+  {% if traefik_provider_docker %}
+  # Docker configuration backend
+  docker:
+    {% if traefik_provider_docker_defaultrule %}
+    defaultRule: {{ traefik_provider_docker_defaultrule }}
+    {% elif traefik_host_domainname %}
+    defaultRule: "Host(`{{ '{{ normalize .Name }}' }}.{{ traefik_host_domainname }}`)"
+    {% endif %}
+    exposedByDefault: {{ traefik_provider_docker_exposebydefault | to_json }}
+    {% if traefik_provider_docker_endpoint %}
+    endpoint: {{ traefik_provider_docker_endpoint }}
+    {% endif %}
+  {% endif %}
+
+  # File configuration backend
+  file:
+    directory: {{ traefik_configdir_dynamic }}
+    watch: true
+
+{% for provider, config in traefik_providers.items() %}
+  {{ provider }}: {{ config }}
+{% endfor %}
+
+# API and dashboard configuration
+api:
+  insecure: false
+  dashboard: {{ traefik_dashboard_enable | to_json }}
+
+# Logs configuration
+log:
+  level: {{ traefik_log_level }}
+  format: {{ traefik_log_format }}
+  filePath: {{ traefik_log_filepath }}
+
+# Pilot configuration
+pilot:
+  token: {{ traefik_pilot_token }}
+  dashboard: true
+
+{% if traefik_metrics or traefik_metrics_prometheus %}
+# Metrics configuration
+metrics:
+  {% for item, config in traefik_metrics.items() %}
+  {{ item }}: {{ config }}
+  {% endfor %}
+  {% if traefik_metrics_prometheus %}
+  prometheus:
+    addEntryPointsLabels: true
+    addRoutersLabels: true
+    addServicesLabels: true
+    manualRouting: true
+  {% endif %}
+{% endif %}
+
+{% if traefik_tracing %}
+# Tracing configuration
+tracing:
+{% for item, config in traefik_tracing.items() %}
+  {{ item }}: {{ config }}
+{% endfor %}
+{% endif %}

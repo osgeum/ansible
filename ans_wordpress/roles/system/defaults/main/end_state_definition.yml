@@ -1,0 +1,13 @@
+---
+sys_mc_application:
+  name: "mc"
+  type: "{{ (ansible_distribution == 'MacOSX') | ternary('brew', 'distro') }}"
+  version: "latest"
+  installed: true
+
+sys_mc_actions:
+  setup:
+    overwrite: false
+
+sys_mc_users: []
+...

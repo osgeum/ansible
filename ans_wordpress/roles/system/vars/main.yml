@@ -1,0 +1,64 @@
+---
+sys_mc_platforms:
+  - "CentOS8"
+  - "RedHat8"
+  - "AlmaLinux8"
+  - "Rocky8"
+  - "OracleLinux8"
+  - "OracleLinux9"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Ubuntu22"
+  - "Fedora33"
+  - "Fedora35"
+  - "Fedora36"
+  - "Debian10"
+  - "Debian11"
+  - "MacOSX12"
+
+sys_mc_os_family: >-
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'RedHat' ) or
+      ( ansible_distribution == 'AlmaLinux' ) or
+      ( ansible_distribution == 'Rocky' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- elif
+      ( ansible_distribution == 'MacOSX' )
+  -%}
+    {{ 'MacOSX' }}
+  {%- else -%}
+    {{ 'NotSupported' }}
+  {%- endif -%}
+
+sys_mc_base_common:
+  etc:
+    mc: ".config/mc"
+    ini: ".config/mc/ini"
+    panels: ".config/mc/panels.ini"
+  access:
+    mode:
+      dir: "0700"
+      file: "0600"
+  templates:
+    ini: "ini.j2"
+    panels: "panels.ini.j2"
+
+sys_mc_profiles_common:
+  brew:
+    latest:
+      supported: true
+      packages:
+        - name: "mc"
+
+# loop vars
+# sys_mc___setup_user
+...

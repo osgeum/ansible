@@ -1,0 +1,62 @@
+---
+sys_repository_base:
+  access:
+    user:
+      owner: "root"
+      homebrew: "{{ sys_repository_owners['homebrew']['user'] }}"
+    group:
+      owner: "root"
+      homebrew: "{{ sys_repository_owners['homebrew']['group'] }}"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+  templates: "{{ sys_repository_base_common['templates'] }}"
+  etc:
+    sources_list_d: "/etc/apt/sources.list.d"
+    keyrings: "/usr/share/keyrings"
+    trusted_gpg: "/etc/apt/trusted.gpg.d"
+  run:
+    su: "/bin/su"
+    systemctl: "/usr/bin/systemctl"
+    curl: "/usr/bin/curl"
+    flatpak: "/usr/bin/flatpak"
+    snap: "/usr/bin/snap"
+    apt_get: "/usr/bin/apt-get"
+    apt_key: "/usr/bin/apt-key"
+    git: "/usr/bin/git"
+    python: "/usr/bin/python3.10"
+    brew: "/home/linuxbrew/.linuxbrew/Homebrew/bin/brew"
+    brew_installer: "/home/linuxbrew/install.sh"
+  paths:
+    homebrew: "/home/linuxbrew/.linuxbrew"
+    homebrew_bin: "/home/linuxbrew/.linuxbrew/bin"
+    homebrew_home: "/home/linuxbrew"
+    snap_root: "/snap"
+    snap_bin: "/snap/bin"
+    snap_var: "/var/lib/snapd/snap"
+
+sys_repository_packages:
+  distro:
+    - "apt-utils"
+    - "apt-transport-https"
+    - "ca-certificates"
+    - "curl"
+    - "gnupg"
+    - "lsb-release"
+  flatpak:
+    - "flatpak"
+  brew: "{{ sys_repository_packages_common['brew'] }}"
+  tools:
+    - "curl"
+    - "tar"
+  snap:
+    - "snapd"
+
+sys_repository_sources:
+  distro: []
+  flatpak: "{{ sys_repository_sources_common['flatpak'] }}"
+  yum: []
+  apt: []
+  brew: []
+...

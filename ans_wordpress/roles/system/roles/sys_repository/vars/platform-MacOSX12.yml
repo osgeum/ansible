@@ -1,0 +1,41 @@
+---
+sys_repository_base:
+  access:
+    user:
+      owner: "root"
+      homebrew: "{{ sys_repository_owners['homebrew']['user'] }}"
+    group:
+      owner: "wheel"
+      homebrew: "{{ sys_repository_owners['homebrew']['group'] }}"
+    mode:
+      dir: "0755"
+      file: "0644"
+      exe: "0755"
+  templates: "{{ sys_repository_base_common['templates'] }}"
+  etc: {}
+  run:
+    su: "/usr/bin/su"
+    git: "/usr/bin/git"
+    python: "/usr/bin/python3" # python3.8
+    brew: "/opt/homebrew/bin/brew"
+    brew_installer: "/Users/homebrew/install.sh"
+  paths:
+    homebrew: "/opt/homebrew"
+    homebrew_bin: "/opt/homebrew/bin"
+    homebrew_home: "/Users/homebrew"
+
+sys_repository_packages:
+  distro: []
+  flatpak: []
+  git: []
+  brew: "{{ sys_repository_packages_common['brew'] }}"
+  tools: []
+  snap: []
+
+sys_repository_sources:
+  distro: []
+  flatpak: []
+  yum: []
+  apt: []
+  brew: []
+...

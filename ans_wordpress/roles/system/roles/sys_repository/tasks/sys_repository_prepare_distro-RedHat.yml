@@ -1,0 +1,12 @@
+---
+- name: "System / Repository / Prepare / Distro / Update repository cache"
+  become: true
+  no_log: true
+  failed_when: false
+  ansible.builtin.command:
+    argv:
+      - "{{ sys_repository_base['run']['dnf'] }}"
+      - "--quiet"
+      - "makecache"
+  changed_when: false
+...

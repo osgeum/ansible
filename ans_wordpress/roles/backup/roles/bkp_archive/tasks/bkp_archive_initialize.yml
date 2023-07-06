@@ -1,0 +1,20 @@
+---
+- name: "Backup / Archive / Initialize / Check Platform compatibility ({{
+    ansible_distribution + ansible_distribution_major_version }})"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in bkp_archive_platforms
+
+- name: "Backup / Archive / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "{{ 'platform-' + bkp_archive_os_family + '.yml' }}"
+
+- name: "Backup / Archive / Initialize / Resolve prerequisites"
+  ansible.builtin.include_tasks:
+    file: "bkp_archive_prerequisite.yml"
+  when:
+    - bkp_archive['resolve_prereq'] is defined
+    - bkp_archive['resolve_prereq']
+...

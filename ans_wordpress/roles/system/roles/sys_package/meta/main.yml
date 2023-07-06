@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  role_name: "sys_package"
+  author: "serdigital64"
+  description: "Manage application package provisioning"
+  company: "none"
+  license: "Apache-2.0"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "all"
+    - name: "GenericUNIX"
+      versions:
+        - "all"
+  galaxy_tags:
+    - "package"
+    - "rpm"
+    - "deb"
+    - "snap"
+    - "flatpak"
+    - "git"
+    - "brew"
+dependencies: []
+...

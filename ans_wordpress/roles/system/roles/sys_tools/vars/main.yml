@@ -1,0 +1,75 @@
+---
+sys_tools_platforms:
+  - "CentOS8"
+  - "RedHat8"
+  - "AlmaLinux8"
+  - "Rocky8"
+  - "OracleLinux8"
+  - "OracleLinux9"
+  - "Ubuntu20"
+  - "Ubuntu21"
+  - "Ubuntu22"
+  - "Fedora33"
+  - "Fedora35"
+  - "Fedora36"
+  - "Debian10"
+  - "Debian11"
+
+sys_tools_os_family: >-
+  {%- if
+      ( ansible_distribution == 'CentOS' ) or
+      ( ansible_distribution == 'RedHat' ) or
+      ( ansible_distribution == 'AlmaLinux' ) or
+      ( ansible_distribution == 'Rocky' ) or
+      ( ansible_distribution == 'OracleLinux' ) or
+      ( ansible_distribution == 'Fedora' )
+  -%}
+    {{ 'RedHat' }}
+  {%- elif
+      ( ansible_distribution == 'Debian' ) or
+      ( ansible_distribution == 'Ubuntu' )
+  -%}
+    {{ 'Ubuntu' }}
+  {%- else -%}
+    {{ 'NotSupported' }}
+  {%- endif -%}
+
+sys_tools_application:
+  less:
+    name: "less"
+    type: "distro"
+    version: "latest"
+    installed: true
+  groff:
+    name: "groff"
+    type: "distro"
+    version: "latest"
+    installed: true
+  file:
+    name: "file"
+    type: "distro"
+    version: "latest"
+    installed: true
+  gawk:
+    name: "gawk"
+    type: "distro"
+    version: "latest"
+    installed: true
+  sed:
+    name: "sed"
+    type: "distro"
+    version: "latest"
+    installed: true
+  grep:
+    name: "grep"
+    type: "distro"
+    version: "latest"
+    installed: true
+  lsof:
+    name: "lsof"
+    type: "distro"
+    version: "latest"
+    installed: true
+
+# sys_tools___deploy_tool
+...

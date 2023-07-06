@@ -1,0 +1,41 @@
+{
+ "collection_info": {
+  "namespace": "serdigital64",
+  "name": "system",
+  "version": "2.1.2",
+  "authors": [
+   "SerDigital64 <https://github.com/serdigital64>"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "linux",
+   "system",
+   "tools"
+  ],
+  "description": "Ansible Roles for automating operating system management",
+  "license": [
+   "Apache-2.0"
+  ],
+  "license_file": null,
+  "dependencies": {
+   "ansible.posix": "*",
+   "community.general": "*",
+   "serdigital64.automation": "*",
+   "serdigital64.backup": "*",
+   "serdigital64.development": "*",
+   "serdigital64.devops": "*"
+  },
+  "repository": "https://github.com/serdigital64/aplatform64",
+  "documentation": "https://aplatform64.readthedocs.io",
+  "homepage": "https://github.com/serdigital64/aplatform64",
+  "issues": "https://github.com/serdigital64/aplatform64/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "1b0b51adba082942138834709485e0730e57f01b1b2d8b30090da04243631fdc",
+  "format": 1
+ },
+ "format": 1
+}

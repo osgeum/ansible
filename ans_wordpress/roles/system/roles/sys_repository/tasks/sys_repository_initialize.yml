@@ -1,0 +1,24 @@
+---
+- name: "System / Repository / Initialize / Check Platform compatibility ({{
+    ansible_distribution + ansible_distribution_major_version }})"
+  ansible.builtin.assert:
+    quiet: true
+    fail_msg: "Target Platform not supported: {{ ansible_distribution + ansible_distribution_major_version }}"
+    that:
+      - ansible_distribution + ansible_distribution_major_version in sys_repository_platforms
+
+- name: "System / Repository / Initialize / Check required parameters"
+  ansible.builtin.assert:
+    fail_msg: "required parameters are missing ({{
+      sys_repository_owners | default('sys_repository_owners') }})"
+    quiet: true
+    that:
+      - sys_repository_owners['homebrew']['user'] is defined
+      - sys_repository_owners['homebrew']['user'] | length > 0
+      - sys_repository_owners['homebrew']['group'] is defined
+      - sys_repository_owners['homebrew']['group'] | length > 0
+
+- name: "System / Repository / Initialize / Set Platform specific variables"
+  ansible.builtin.include_vars:
+    file: "platform-{{ ansible_distribution + ansible_distribution_major_version }}.yml"
+...

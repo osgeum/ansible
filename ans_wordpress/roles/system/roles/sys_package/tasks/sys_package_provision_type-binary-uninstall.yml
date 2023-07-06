@@ -1,0 +1,8 @@
+---
+- name: "System / Package / Provision / Type: binary / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+  when:
+    - sys_package___application['cleanup'] is defined
+    - sys_package___application['cleanup'] | length > 0
+...

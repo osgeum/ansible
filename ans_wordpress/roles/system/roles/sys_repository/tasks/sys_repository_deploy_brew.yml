@@ -1,0 +1,81 @@
+---
+- name: "System / Repository / Deploy / Brew / Create service owner"
+  vars:
+    sys_user:
+      setup: true
+    sys_user_accounts:
+      - name: "{{ sys_repository_owners['homebrew']['user'] }}"
+        group: "{{ sys_repository_owners['homebrew']['group'] }}"
+        home: "{{ sys_repository_base['paths']['homebrew_home'] }}"
+        locked: false
+        system: false
+  ansible.builtin.include_role:
+    name: "serdigital64.system.sys_user"
+
+- name: "System / Repository / Deploy / Brew / Download installer"
+  become: true
+  ansible.builtin.get_url:
+    backup: false
+    force: false
+    unsafe_writes: false
+    use_proxy: true
+    mode: "{{ sys_repository_base['access']['mode']['exe'] }}"
+    owner: "{{ sys_repository_base['access']['user']['homebrew'] }}"
+    group: "{{ sys_repository_base['access']['group']['homebrew'] }}"
+    tmp_dest: "{{ sys_repository_base['paths']['homebrew_home'] }}"
+    url: "{{ sys_repository_packages['brew'][0] }}"
+    dest: "{{ sys_repository_base['run']['brew_installer'] }}"
+
+- name: "System / Repository / Deploy / Brew / Grant global access to the installer"
+  become: true
+  ansible.builtin.file:
+    follow: false
+    force: false
+    unsafe_writes: false
+    recurse: false
+    state: "directory"
+    path: "{{ sys_repository_base['paths']['homebrew_home'] }}"
+    mode: "{{ sys_repository_base['access']['mode']['dir'] }}"
+
+- name: "System / Repository / Deploy / Brew / Install Homebrew"
+  block:
+    - name: "System / Repository / Deploy / Brew / Install Homebrew / Grant temporary sudo access"
+      vars:
+        sys_sudo:
+          setup: true
+        sys_sudo_rules:
+          user:
+            - name: "{{ sys_repository_owners['homebrew']['user'] }}"
+              rule: "ALL=(ALL) NOPASSWD: ALL"
+              present: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_sudo"
+
+    - name: "System / Repository / Deploy / Brew / Install Homebrew / Deploy package"
+      become: true
+      environment:
+        NONINTERACTIVE: "1"
+      ansible.builtin.command:
+        creates: "{{ sys_repository_base['run']['brew'] }}"
+        chdir: "{{ sys_repository_base['paths']['homebrew_home'] }}"
+        argv:
+          - "{{ sys_repository_base['run']['su'] }}"
+          - "-l"
+          - "{{ sys_repository_owners['homebrew']['user'] }}"
+          - "-c"
+          - "{{ sys_repository_base['run']['brew_installer'] }}"
+      changed_when: false
+      no_log: true
+  always:
+    - name: "System / Repository / Deploy / Brew / Install Homebrew / Remove temporary sudo access"
+      vars:
+        sys_sudo:
+          setup: true
+        sys_sudo_rules:
+          user:
+            - name: "{{ sys_repository_owners['homebrew']['user'] }}"
+              rule: "ALL=(ALL) NOPASSWD: ALL"
+              present: false
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_sudo"
+...

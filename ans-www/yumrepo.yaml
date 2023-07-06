@@ -1,0 +1,11 @@
+- name : setup to EPEL repository
+  hosts: all
+
+  tasks:
+    - name: add repository
+      yum_repository:
+        name: epel
+        description: enterprise packages repository
+        baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+        gpgcheck: false
+        file: epel

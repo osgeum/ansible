@@ -1,0 +1,13 @@
+---
+- name: this is timesync role fro
+  hosts: all
+
+  become: true
+  remote_user: remote
+
+  vars: 
+    timesync_ntp_servers:
+        - hostname: 3.kr.pool.ntp.org
+          iburst: true
+    roles:
+      - linux-system-roles.timesync

@@ -1,0 +1,8 @@
+---
+- name: haproxy 
+  src: http://192.168.200.110/m4eba-haproxy-0.2.0.tar.gz
+- name: backup
+  src: http://192.168.200.110/serdigital64-backup-2.1.1.tar.gz
+- name: system
+  src: http://192.168.200.110/serdigital64-system-2.1.2.tar.gz
+

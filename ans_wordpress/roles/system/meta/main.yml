@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  role_name: "sys_mc"
+  author: "serdigital64"
+  description: "Manage provisioning of the Midnight Commander tool"
+  company: "none"
+  license: "Apache-2.0"
+  min_ansible_version: "2.10"
+  platforms:
+    - name: "GenericLinux"
+      versions:
+        - "all"
+    - name: "GenericUNIX"
+      versions:
+        - "all"
+  galaxy_tags:
+    - "mc"
+dependencies: []
+...

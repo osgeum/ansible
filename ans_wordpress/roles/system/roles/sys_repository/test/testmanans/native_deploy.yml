@@ -1,0 +1,16 @@
+---
+- name: "System / Repository / Test / Native"
+  hosts: "localhost"
+  gather_facts: true
+
+  tasks:
+    - name: "System / Repository / Test / Native / Run"
+      vars:
+        sys_repository:
+          deploy: true
+      ansible.builtin.include_role:
+        name: "serdigital64.system.sys_repository"
+
+    - name: "System / Repository / Test / Native / Verify"
+      meta: noop
+...

@@ -1,0 +1,13 @@
+---
+- name: "System / Repository / Deploy / PIP / Distro native PIP"
+  vars:
+    dev_python:
+      deploy: true
+    dev_python_application:
+      name: "python"
+      type: "distro"
+      version: "default"
+      installed: true
+  ansible.builtin.include_role:
+    name: "serdigital64.development.dev_python"
+...

@@ -1,0 +1,13 @@
+---
+sys_shell_catalog:
+  zsh: false
+  bash: false
+  ksh: false
+  csh: false
+
+sys_shell_actions:
+  setup:
+    overwrite: false
+
+sys_shell_users: []
+...

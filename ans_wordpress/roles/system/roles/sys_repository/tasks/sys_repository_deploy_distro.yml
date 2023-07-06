@@ -1,0 +1,9 @@
+---
+# Using state: latest to ensure packages that contains certificates to be recent (e.g.: ca-certificates)
+- name: "System / Repository / Deploy / Distro / Helpers"
+  become: true
+  no_log: true
+  ansible.builtin.package:
+    state: "latest"
+    name: "{{ sys_repository_packages['distro'] }}"
+...

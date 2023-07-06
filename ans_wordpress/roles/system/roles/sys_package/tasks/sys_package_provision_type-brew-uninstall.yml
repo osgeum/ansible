@@ -1,0 +1,52 @@
+---
+- name: "System / Package / Provision / Type: brew / Uninstall / Check required parameters"
+  ansible.builtin.assert:
+    quiet: true
+    that:
+      - "'packages' in sys_package___application"
+      - sys_package___application['packages'] is not none
+      - sys_package___application['packages'] | length > 0
+
+- name: "System / Package / Provision / Type: brew / Uninstall / Remove package (formulae)"
+  become: true
+  become_user: "{{ sys_repository_base['access']['user']['homebrew'] }}"
+  community.general.homebrew:
+    path: "{{ sys_repository_base['paths']['homebrew_bin'] }}"
+    name: "{{
+      sys_package___application['packages'] |
+      map( attribute = 'name' ) |
+      list()
+      }}"
+    state: "absent"
+    update_homebrew: false
+    upgrade_all: false
+  when:
+    - (not sys_package___application['options']['brew']['cask'] is defined) or
+      (not sys_package___application['options']['brew']['cask'])
+
+- name: "System / Package / Provision / Type: brew / Install / Remove package (cask)"
+  become: true
+  become_user: "{{ sys_repository_base['access']['user']['homebrew'] }}"
+  community.general.homebrew_cask:
+    path: "{{ sys_repository_base['paths']['homebrew_bin'] }}"
+    name: "{{
+      sys_package___application['packages'] |
+      map( attribute = 'name' ) |
+      list()
+      }}"
+    state: "absent"
+    greedy: false
+    update_homebrew: false
+    upgrade_all: false
+  when:
+    - ansible_distribution == "MacOSX"
+    - sys_package___application['options']['brew']['cask'] is defined
+    - sys_package___application['options']['brew']['cask']
+
+- name: "System / Package / Provision / Type: brew / Uninstall / CleanUp"
+  ansible.builtin.include_tasks:
+    file: "sys_package_provision_cleanup.yml"
+  when:
+    - sys_package___application['cleanup'] is defined
+    - sys_package___application['cleanup'] | length > 0
+...

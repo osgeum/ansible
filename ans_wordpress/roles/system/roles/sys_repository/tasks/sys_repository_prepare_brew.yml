@@ -1,0 +1,17 @@
+---
+# Try to update, ignore errors even when brew is not yet installed
+- name: "System / Repository / Prepare / Brew / Update repository cache"
+  become: true
+  ansible.builtin.command:
+    removes: "{{ sys_repository_base['run']['brew'] }}"
+    chdir: "{{ sys_repository_base['paths']['homebrew_home'] }}"
+    argv:
+      - "{{ sys_repository_base['run']['su'] }}"
+      - "-l"
+      - "{{ sys_repository_owners['homebrew']['user'] }}"
+      - "-c"
+      - "{{ sys_repository_base['run']['brew'] }}"
+      - "update"
+  changed_when: false
+  failed_when: false
+...

@@ -1,0 +1,14 @@
+[www]
+node1.example.com
+node2.example.com
+
+[db]
+node3.example.com
+
+[ftp]
+node4.example.com
+
+[common:children]
+www
+db
+ftp

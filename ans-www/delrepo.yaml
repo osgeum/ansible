@@ -1,0 +1,10 @@
+- name : setup to EPEL repository
+  hosts: all
+
+  tasks:
+    - name: del repository
+      yum_repository:
+        name: internalrepo
+        description: enterprise packages repository
+        file: epel
+        state: absent

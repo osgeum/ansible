@@ -1,0 +1,12 @@
+[www]
+node1.example.com
+
+[db]
+node2.example.com
+
+[backup]
+node3.example.com
+
+[wordpress:children]
+www
+db

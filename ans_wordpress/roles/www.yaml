@@ -1,0 +1,21 @@
+- name: install apache webserver playbook
+  hosts: www
+
+  tasks:
+    - name: install to apache server
+      dnf:
+        name: httpd
+        state: present
+
+    - name: install to mariadb-server and mariadb packages
+      dnf:
+        name: 
+         - mariadb-server
+         - mariadb
+        state: present
+
+    - name: enable and start to the apache service
+      service:
+        name: httpd
+        state: started
+        enabled: yes

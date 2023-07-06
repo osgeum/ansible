@@ -1,0 +1,10 @@
+---
+sys_tools_catalog:
+  file: false
+  gawk: false
+  grep: false
+  groff: false
+  less: false
+  lsof: false
+  sed: false
+...
